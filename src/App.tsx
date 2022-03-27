@@ -5,7 +5,7 @@ import { Routes } from './routes';
 
 export function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={}>
       <Routes />
     </ChakraProvider>
   );
