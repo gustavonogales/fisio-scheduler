@@ -6,6 +6,7 @@ import * as yup from 'yup';
 
 import { Input } from '@/components';
 import { COLOR } from '@/constants';
+import { useSignIn } from '@/hooks/useSignIn';
 import { useStore } from '@/stores';
 
 import { ReactComponent as Logo } from '../../assets/logo-vertical.svg';
@@ -20,11 +21,13 @@ export function SignIn() {
     resolver: yupResolver(signInSchema),
   });
   const { errors } = formState;
-  const signIn = useStore((state) => state.signIn);
-  useEffect(() => console.log(errors), [errors]);
+  const [_, execute] = useSignIn();
+  const save = useStore((state) => state.save);
+
   function handleSignIn(formData: any) {
-    console.log(formData);
-    signIn(formData);
+    execute({ data: formData }).then((response) => {
+      save(response.data);
+    });
   }
 
   return (

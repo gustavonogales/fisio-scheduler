@@ -1,6 +1,10 @@
+import { UserType } from './UserType';
+
 export interface User {
   id: string;
-  avatar_url: string;
   name: string;
   email: string;
+  createdAt: Date;
+  updatedAt: Date;
+  type: UserType;
 }
