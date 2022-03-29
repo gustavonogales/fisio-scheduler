@@ -4,7 +4,7 @@ import { Credentials, UserAuth } from '@/types';
 import { api } from '@/utils';
 
 export class AuthService {
-  private static resource = '/session';
+  private static resource = '/auth';
 
   static signIn({ email, password }: Credentials): Promise<AxiosResponse<UserAuth>> {
     return api.post(this.resource, {

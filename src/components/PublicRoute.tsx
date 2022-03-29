@@ -12,7 +12,7 @@ export const PublicRoute: React.FC = ({ children }) => {
     if (user) {
       navigate(ROUTES.HOME);
     }
-  }, []);
+  }, [user]);
 
   return <>{children}</>;
 };

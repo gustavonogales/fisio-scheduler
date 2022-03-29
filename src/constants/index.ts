@@ -4,3 +4,7 @@ export const ROUTES = {
   SIGNOUT: '/signout',
   SIGNUP: '/signup',
 };
+
+export const COLOR = {
+  PRIMARY: 'teal',
+};

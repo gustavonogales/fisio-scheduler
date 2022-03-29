@@ -12,7 +12,7 @@ export const PrivateRoute: React.FC = ({ children }) => {
     if (!user) {
       navigate(ROUTES.SIGNIN);
     }
-  }, []);
+  }, [user]);
 
   return <>{children}</>;
 };

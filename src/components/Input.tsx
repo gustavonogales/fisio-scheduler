@@ -1,26 +1,27 @@
-import { FormControl, FormLabel, Input as ChakraInput } from '@chakra-ui/react';
+import {
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input as ChakraInput,
+} from '@chakra-ui/react';
 import React from 'react';
-import { Control, useController } from 'react-hook-form';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface InputProps {
   id: string;
   label: string;
-  control: Control;
+  register: UseFormRegister<FieldValues>;
+  errors: any;
   type?: React.HTMLInputTypeAttribute;
 }
 
-export function Input({ id, label, control, type = 'text' }: InputProps) {
-  const {
-    field: { onChange, value },
-  } = useController({
-    name: id,
-    control,
-  });
-
+export function Input({ id, label, register, errors, type = 'text' }: InputProps) {
+  const error = errors?.[id]?.message;
   return (
-    <FormControl>
+    <FormControl isInvalid={!!error}>
       <FormLabel htmlFor={id}>{label}</FormLabel>
-      <ChakraInput id={id} type={type} />
+      <ChakraInput id={id} type={type} {...register(id)} />
+      <FormErrorMessage>{error}</FormErrorMessage>
     </FormControl>
   );
 }
