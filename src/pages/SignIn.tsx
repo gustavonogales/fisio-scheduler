@@ -1,4 +1,4 @@
-import { Button, Flex, Stack, Text } from '@chakra-ui/react';
+import { Button, Flex, Stack, Text, useToast } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,17 +17,28 @@ const signInSchema = yup.object().shape({
 });
 
 export function SignIn() {
+  const toast = useToast();
   const { handleSubmit, register, formState } = useForm({
     resolver: yupResolver(signInSchema),
   });
   const { errors } = formState;
-  const [_, execute] = useSignIn();
+  const [{ loading, error }, execute] = useSignIn();
   const save = useStore((state) => state.save);
 
   function handleSignIn(formData: any) {
-    execute({ data: formData }).then((response) => {
-      save(response.data);
-    });
+    execute({ data: formData })
+      .then((response) => {
+        save(response.data);
+      })
+      .catch(() => {
+        toast({
+          title: 'Ocorreu um erro na autenticação',
+          description: 'Tente novamente',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      });
   }
 
   return (
@@ -67,11 +78,11 @@ export function SignIn() {
               register={register}
               errors={errors}
             />
-            <Button colorScheme={COLOR.PRIMARY} type="submit">
+            <Button isLoading={loading} colorScheme={COLOR.PRIMARY} type="submit">
               Entrar
             </Button>
             <Text>ou</Text>
-            <Button>Cadastre-se</Button>
+            <Button isDisabled={loading}>Cadastre-se</Button>
           </Stack>
         </Stack>
       </Flex>
